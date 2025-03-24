@@ -31,3 +31,17 @@ func (c *CacheRepository) StoreCachedEntry(ctx context.Context, key string, cach
 
 	return nil
 }
+
+func (c *CacheRepository) GetCachedEntry(ctx context.Context, key string) (*models.CachedEntry, error) {
+	val, err := c.client.Get(ctx, key).Bytes()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cached entry: %w", err)
+	}
+
+	var cachedEntry models.CachedEntry
+	if err := json.Unmarshal(val, &cachedEntry); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal cached entry: %w", err)
+	}
+
+	return &cachedEntry, nil
+}

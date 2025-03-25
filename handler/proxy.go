@@ -82,7 +82,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func ResponsedWithHeader(w http.ResponseWriter, cacheEntry *models.CachedEntry, cacheHeader, KEY string) {
 	log.Printf("Cache : %s %s \n", cacheHeader, KEY)
 	w.Header().Set("X-Cache", cacheHeader)
-	w.WriteHeader(cacheEntry.StatusCode)
 	maps.Copy(w.Header(), cacheEntry.Header)
+	w.WriteHeader(cacheEntry.StatusCode)
 	w.Write(cacheEntry.ResponseBody)
 }

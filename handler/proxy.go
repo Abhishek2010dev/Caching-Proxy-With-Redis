@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -26,4 +27,10 @@ func NewProxy(origin string, expiration time.Duration, redisClient *redis.Client
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	CACHE_KEY := fmt.Sprintf("%s:%s", r.Method, r.URL)
 	val, err := p.cache.GetCachedEntry(r.Context(), CACHE_KEY)
+
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+
+		}
+	}
 }

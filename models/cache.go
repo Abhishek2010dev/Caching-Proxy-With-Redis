@@ -5,6 +5,8 @@ import (
 )
 
 type CachedEntry struct {
-	ResponseBody []byte    `json:"responseBody"`
-	Created      time.Time `json:"created"`
+	StatusCode   int                 `json:"statusCode"`
+	Header       map[string][]string `json:"header"`
+	ResponseBody []byte              `json:"responseBody"`
+	Created      time.Time           `json:"created"`
 }

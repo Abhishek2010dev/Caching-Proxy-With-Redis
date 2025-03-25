@@ -31,6 +31,7 @@ func NewProxy(origin string, expiration time.Duration, redisClient *redis.Client
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	CACHE_KEY := fmt.Sprintf("%s:%s", r.Method, r.URL)
 
+	// If cache exits.
 	val, err := p.cache.GetCachedEntry(r.Context(), CACHE_KEY)
 	if err != nil && !errors.Is(err, redis.Nil) {
 		log.Printf("Failed to get cache entry: %s", err.Error())
@@ -38,7 +39,6 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If cache exits.
 	if val != nil {
 		ResponsedWithHeader(w, val, "HIT", CACHE_KEY)
 		return

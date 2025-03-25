@@ -32,6 +32,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	val, err := p.cache.GetCachedEntry(r.Context(), CACHE_KEY)
 	if err != nil {
+		// IF cache exits
 		if errors.Is(err, redis.Nil) {
 			ResponsedWithHeader(w, val, "HIT", CACHE_KEY)
 			return

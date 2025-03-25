@@ -31,16 +31,18 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	CACHE_KEY := fmt.Sprintf("%s:%s", r.Method, r.URL)
 
 	val, err := p.cache.GetCachedEntry(r.Context(), CACHE_KEY)
-	if err != nil {
-		// IF cache exits
-		if errors.Is(err, redis.Nil) {
-			ResponsedWithHeader(w, val, "HIT", CACHE_KEY)
-			return
-		}
+	if err != nil && !errors.Is(err, redis.Nil) {
 		log.Printf("Failed to get cache entry: %s", err.Error())
 		http.Error(w, "Samething went wrong", http.StatusInternalServerError)
 		return
 	}
+
+	// If cache exits.
+	if val != nil {
+		ResponsedWithHeader(w, val, "HIT", CACHE_KEY)
+		return
+	}
+
 }
 
 func ResponsedWithHeader(w http.ResponseWriter, cacheEntry *models.CachedEntry, cacheHeader, KEY string) {

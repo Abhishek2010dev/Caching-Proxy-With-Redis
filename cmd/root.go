@@ -12,6 +12,6 @@ func Init() {
 	})
 
 	roodCmd := &cobra.Command{}
-	roodCmd.AddCommand(StartCommand(redisClient))
+	roodCmd.AddCommand(ServeCommand(redisClient))
 	roodCmd.Execute()
 }

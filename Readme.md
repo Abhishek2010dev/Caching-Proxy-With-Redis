@@ -44,6 +44,10 @@ go run main.go serve --clear-cache
 - Cached responses are served instantly if available.
 - Use the `--clear-cache` flag to flush the Redis cache.
 
+## 📚 References
+For more details, check out the caching server roadmap:
+🔗 [Caching Server Roadmap](https://roadmap.sh/projects/caching-server)
+
 ## 📝 License
 This project is licensed under the MIT License.
 
